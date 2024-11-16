@@ -1,0 +1,8 @@
+#usermod -a -G sudo jenkins
+
+#sudo su - jenkins
+
+
+#mkdir -p $HOME/.kube
+#sudo cp -i /home/bm10/.kube/config  $HOME/.kube/config
+#sudo chown $(id -u):$(id -g) $HOME/.kube/config
