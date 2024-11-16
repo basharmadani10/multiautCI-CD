@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: jenkins-pod-list-clusterrolebinding
+subjects:
+- kind: ServiceAccount
+  name: jenkins
+  namespace: jenkins
+roleRef:
+  kind: ClusterRole
+  name: jenkins-pod-list-clusterrole
+  apiGroup: rbac.authorization.k8s.io
