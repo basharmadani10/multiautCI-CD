@@ -41,7 +41,7 @@ VOLUME /var/www/html
 
 # Copy code and run composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-COPY . /var/www/tmp
+COPY . /var/www/html
 RUN cd /var/www/html/ && composer install --no-dev
 
 RUN chown -R www-data:www-data /var/www/html
