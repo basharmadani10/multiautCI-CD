@@ -1,0 +1,29 @@
+
+version: '3'
+services:
+  laravel-docker:
+    image: mo1074/multiauth:v1
+    environment:
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: multiauth
+      DB_USERNAME: root
+      DB_PASSWORD: root
+
+    ports:
+      - 9000:80
+
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: multiauth
+    volumes:
+      - test:/var/lib/mysql
+    ports:
+    - 3306:3306
+
+volumes:
+   test:

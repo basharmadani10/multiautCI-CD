@@ -1,0 +1,23 @@
+version: '3'
+services:
+  laravel-docker:
+    image: mo1074/multiauth:v1
+    volumes:
+    - .env:/var/www/html/.env
+
+    ports:
+      - 9000:80
+
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: test
+    volumes:
+      - test:/var/lib/mysql
+    ports:
+    - 3306:3306
+
+volumes:
+   test:
