@@ -42,11 +42,11 @@ VOLUME /var/www/html
 # Copy code and run composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY . /var/www/tmp
-RUN cd /var/www/tmp && composer install --no-dev
+RUN cd /var/www/html/ && composer install --no-dev
 
-# Ensure the entrypoint file can be run
-RUN chmod +x /var/www/tmp/docker-entrypoint.sh
-ENTRYPOINT ["/var/www/tmp/docker-entrypoint.sh"]
+RUN chown -R www-data:www-data /var/www/html
+
+# Ensure 
 
 
 # The default apache run command
