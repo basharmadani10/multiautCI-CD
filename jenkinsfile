@@ -1,0 +1,50 @@
+pipeline {
+    agent any
+
+    environment {
+        USER_CREDENTIALS = credentials('dockerhub') // Assuming this is a Jenkins credential ID
+    }
+    
+    stages {
+        stage('Clone') {
+            steps {
+           
+                git branch: 'master', url: 'https://github.com/basharmadani10/multiautCI-CD.git'
+            }
+        }
+     
+  
+        }
+        stage('Dockerize') {
+            steps {
+                script {
+                    // Build the Docker image (make sure you have a Dockerfile in the repo)
+                    sh '''
+                    docker build -t mo1074/multiauth:v1 .
+                    '''
+                }
+            }
+        }
+        stage('Push to Docker Hub') {
+            steps {
+                // Use withCredentials to access Docker Hub credentials
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    // Log in to Docker Hub
+                    sh '''
+                    echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+                    '''
+                    
+                    // Push the Docker image to Docker Hub
+                    sh '''
+                    docker push mo1074/multiauth:v1
+                    '''
+                }
+            }
+            stage("Deployment stage"){
+
+            sh     '''
+                kubectl apply -R k8s/
+                '''
+            }
+        }
+    }
