@@ -8,13 +8,10 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-           
                 git branch: 'main', url: 'https://github.com/basharmadani10/multiautCI-CD.git'
             }
         }
-     
-  
-        }
+        
         stage('Dockerize') {
             steps {
                 script {
@@ -25,6 +22,7 @@ pipeline {
                 }
             }
         }
+        
         stage('Push to Docker Hub') {
             steps {
                 // Use withCredentials to access Docker Hub credentials
@@ -40,11 +38,17 @@ pipeline {
                     '''
                 }
             }
-            stage("Deployment stage"){
-
-            sh     '''
-                kubectl apply -R k8s/
-                '''
+        }
+        
+        stage('Deployment stage') {
+            steps {
+                script {
+                    // Apply Kubernetes configurations
+                    sh '''
+                    kubectl apply -R -f k8s/
+                    '''
+                }
             }
         }
     }
+}
